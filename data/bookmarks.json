@@ -1,0 +1,32 @@
+[
+    {
+        "Id": 1,
+        "Name": "Google",
+        "Url": "https://www.google.com",
+        "Category": "Search engine"
+    },
+    {
+        "Id": 2,
+        "Name": "Twitter",
+        "Url": "https://www.twitter.com",
+        "Category": "Social media"
+    },
+    {
+        "Id": 3,
+        "Name": "Amazon",
+        "Url": "https://www.amazon.ca",
+        "Category": "Shopping"
+    },
+    {
+        "Id": 4,
+        "Name": "LaPresse",
+        "Url": "https://www.lapresse.ca",
+        "Category": "News"
+    },
+    {
+        "Name": "Reddit lol",
+        "Url": "https://www.reddit.com",
+        "Category": "Social media",
+        "Id": 5
+    }
+]
