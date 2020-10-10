@@ -24,9 +24,39 @@
         "Category": "News"
     },
     {
-        "Name": "Reddit lol",
+        "Name": "Reddit",
         "Url": "https://www.reddit.com",
         "Category": "Social media",
         "Id": 5
+    },
+    {
+        "Name": "GeoGuessr",
+        "Url": "https://www.geoguessr.com/",
+        "Category": "Game",
+        "Id": 6
+    },
+    {
+        "Name": "Twitch",
+        "Url": "https://www.twitch.tv/",
+        "Category": "Streaming",
+        "Id": 7
+    },
+    {
+        "Name": "YouTube",
+        "Url": "https://www.youtube.com/",
+        "Category": "Videos",
+        "Id": 8
+    },
+    {
+        "Name": "DailyMotion",
+        "Url": "https://www.dailymotion.com/",
+        "Category": "Videos",
+        "Id": 9
+    },
+    {
+        "Id": 10,
+        "Name": "Journal de Québec",
+        "Url": "https://www.journaldequebec.com/",
+        "Category": "News"
     }
 ]

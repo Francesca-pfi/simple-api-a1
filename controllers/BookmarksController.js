@@ -3,6 +3,7 @@ const queryString = require('query-string');
 const Repository = require('../models/Repository');
 const { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } = require('constants');
 const { isError } = require('util');
+const { type } = require('os');
 
 module.exports = 
 class BookmarksController extends require('./Controller') {
@@ -62,8 +63,6 @@ class BookmarksController extends require('./Controller') {
             else
                 this.response.internalError();
         }
-        else 
-            this.response.badRequest();
     }
     // PUT: api/bookmarks body payload[{"Id":..., "Name": "...", "Url": "...", "Category": "..."}]
     put(bookmark){
@@ -99,15 +98,24 @@ class BookmarksController extends require('./Controller') {
     }
     validateBookmark(bookmark) {
         let res = false;
-        if ('Name' in bookmark && 'Url' in bookmark && 'Category' in bookmark)
-            if (!this.isEmpty(bookmark.Name) && !this.isEmpty(bookmark.Url) && !this.isEmpty(bookmark.Category))
-                if (Object.keys(bookmark).length <= 4)
+        if ('Name' in bookmark)
+            if ('Url' in bookmark)
+                if ('Category' in bookmark) {
+                    let valid = true;
+                    for (let prop of Object.keys(bookmark)) {
+                        if (!["Name", "Url", "Category", "Id"].includes(prop)) {
+                            return this.errorCreate(bookmark, "Invalid parameter '" + prop + "'")
+                        }
+                        if (this.isEmpty(bookmark[prop])) {
+                            return this.errorCreate(bookmark, "Empty parameter '" + prop + "'")
+                        }
+                    }
                     if (this.isValidHttpUrl(bookmark.Url))
                         return true;
                     else return this.errorCreate(bookmark, "Invalid URL")
-                else return this.errorCreate(bookmark, "Too many keys")
-            else return this.errorCreate(bookmark, "Empty parameter not allowed")
-        else return this.errorCreate(bookmark, "Missing parameter")
+                }else return this.errorCreate(bookmark, "Missing parameter 'Category'")
+            else return this.errorCreate(bookmark, "Missing parameter 'Url'")
+        else return this.errorCreate(bookmark, "Missing parameter 'Name'")
     }
     applyParams(bookmarks, params) {
         for (let param of Object.keys(params))
@@ -127,8 +135,10 @@ class BookmarksController extends require('./Controller') {
         }
         return bookmarks;
     }
-    isEmpty(str) {
-        return (str.length === 0 || !str.trim());
+    isEmpty(x) {
+        if (typeof x == "string")
+            return (x.length === 0 || !x.trim());
+        else x ? true : false;
     };
     isValidHttpUrl(string) {
         let url;
@@ -141,10 +151,9 @@ class BookmarksController extends require('./Controller') {
         return url.protocol === "http:" || url.protocol === "https:";
     }
     filterBy(array, property, match) {
-        if (match[match.length-1]){
+        if (match[match.length-1] == "*"){
             return array.filter(obj => obj[property].toLowerCase().match(new RegExp("^" + match.toLowerCase().substring(0, match.length-1))))
         }
-        else return array.filter(obj => obj[property].toLowerCase() == match.toLowerCase())
-
+        else return array.filter(obj => obj[property].toLowerCase() == match.toLowerCase());
     }
 }
